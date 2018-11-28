@@ -1,0 +1,72 @@
+
+####### NÓ TELEGRAM ##########
+
+Adicionar register local no dockercompose
+  
+-----
+  registry:
+    restart: always
+    image: registry:2
+    ports:
+      - 5009:5000
+    volumes:
+      - /opt/dojot/docker/registry:/var/lib/registry
+    networks:
+      - default
+
+-----
+
+COMANDO 1
+>> cd telegram-node
+
+COMANDO 2
+docker build -t nuness/telegram  .
+
+COMANDO 3
+docker push nuness/telegram
+
+COMANDO 4
+curl -X POST http://207.154.234.78:8000/auth \
+-H 'Content-Type:application/json' \
+-d '{"username": "admin", "passwd" : "admin"}'
+
+COMANDO 5
+export JWT
+
+COMANDO 6
+curl -H "Authorization: Bearer ${JWT}" http://207.154.234.78:8000/flows/v1/node -H "content-type: application/json" -d '{"image": "nuness/telegram:latest", "id":"telegram"}'
+
+COMANDO 7
+curl -X DELETE -H "Authorization: Bearer ${JWT}" "http://207.154.234.78:8000/flows/v1/node/telegram"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
